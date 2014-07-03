@@ -69,6 +69,7 @@ end
     @thermostat.user = current_user
     @thermostat.energy = 0
     @thermostat.humidity = 0
+    @thermostat.pai_id.nombre=pai_id
     @history = HistoryThermostat.new
     @history.thermostat_id = @thermostat.id
     @history.save
@@ -104,7 +105,7 @@ end
       format.json { head :no_content }
     end
   end
-
+ 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_thermostat
@@ -114,7 +115,7 @@ end
     # Never trust parameters from the scary internet, only allow the white list through.
     def thermostat_params
 
-      params.require(:thermostat).permit(:serial, :temperature, :user_id, :current_temperature, :location_id, :humildity, :energy )
+      params.require(:thermostat).permit(:serial, :temperature, :user_id, :current_temperature, :location_id, :humildity, :energy , :pai_id)
 
     end
 end

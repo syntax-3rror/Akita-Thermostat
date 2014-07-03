@@ -1,5 +1,7 @@
 AkitaThermostat::Application.routes.draw do
 
+  resources :pais
+
   resources :issues
 
   resources :alarms
@@ -9,6 +11,9 @@ AkitaThermostat::Application.routes.draw do
   resources :history_thermostats
 
   resources :planners
+
+
+  get "/issues/:issue_id/deleteCom/:id" => "comments#delete"
 
   get '/thermostats/new' => 'thermostats#new', as: 'new_thermostat'
 
@@ -40,8 +45,14 @@ resources :locations do
   # get "thermostats/id" => "locations#register"
   devise_for :users
   resources :users
-  resources :thermostats
+   resources :thermostats
 
+  resources :thermostats do
+    resources :observacions
+  end
+  get "/thermostats/:thermostat_id/deleteOb/:id" => "observacions#delete"
+ get '/like/:id' => "observacions#like"
+  get '/dislike/:id' => "observacions#dislike"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

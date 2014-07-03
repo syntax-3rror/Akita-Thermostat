@@ -10,9 +10,42 @@
 <p><strong>Temperatura:</strong><%= @thermostat.temperature %></p>
 <p> <strong>Nombre:</strong><%= @thermostat.location.name %></p>
 <p><strong>Ciudad:</strong><%= @thermostat.location.city %></p>
+<p><strong>Pais:</strong><%= @thermostat.pai_id %></p>
+
 <p><strong>Direccion:</strong><%= @thermostat.location.address %></p>
 <H2 align=center>Temperatura actual</H2>
   <p><strong>Descripción: </strong> <%= @description %> </p>
   <p><strong>Humedad actual: </strong> <%= @hum %> </p>
   <p><strong>Temperatura Maxima estimada: </strong> <%= @tempMax-273 %> C</p>
   <p><strong>Temperatura Minima estimada: </strong> <%= @tempMin-273 %> C</p>
+  <h2>Observaciones</h2>
+<% @thermostat.observacions.each do |c| %> 
+  <p>
+  	Usuario: <%= c.username %><br/>
+    <%= c.observacion %><br/>
+    fecha <%= c.created_at.to_date %><br/>
+    Likes: 
+
+    <div id="numLikes">
+    	<%= c.likes %>
+    </div>
+
+    <br/>
+    <a href="/like/<%=c.id%>/" >Like</a>
+    <a href="/dislike/<%=c.id%>/" >Dislike</a>
+    <a href="/thermostats/<%=@thermostat.id%>/deleteOb/<%=c.id%>/">Eliminar</a>
+  </p>
+<% end %>
+
+<% if current_user.username == "administrador" || current_user.username == @thermostat.user.username  %>
+	<h2>Agregar un observacion:</h2>
+	<%= form_for([@thermostat, @thermostat.observacions.build]) do |f| %>
+	<p>
+	  <%= f.label :Observacion %><br />
+	  <%= f.text_area :observacion %>
+	</p>
+	<p>
+	  <%= f.submit%>
+	</p>
+	<% end %>
+<% end %>
